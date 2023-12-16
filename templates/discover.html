@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="feeds">
+    <!--========  FEED LIST  ============-->
+    {% for post in posts reversed %}
+    <div class="feed">
+      <div class="head">
+        <div class="user">
+          <div class="profile-photo">
+            <img src="{{post.profile.profileimg.url}}" />
+          </div>
+          <div class="info">
+            <h3>{{post.user}}</h3>
+            <small>{{post.profile.department}}</small>
+          </div>
+        </div>
+        <span class="edit"><i class="fa fa-ellipsis-v aria-hidden='true' " style="padding-top: 10px; padding-right: 8px"></i></span>
+      </div>
+      <div class="photo">
+        <a href="{{post.image.url}}">  
+          <img src="{{post.image.url}}" alt="">
+        </a>
+      </div>
+      <div class="action-buttons">
+        <div class="interaction-buttons">
+          
+          <a href="/like-post?post_id={{post.id}}" class="flex items-center space-x-2">
+            <span id="heart-icon" {% if post.is_liked %}style="color: red"{% else %}style="font-weight: 50; color: black"{% endif %} class="fa fa-heart"></span>
+          </a>
+          <img src="{% static 'icons/comment.svg' %}" class="icons" />
+          <img src="{% static 'icons/share-network.svg' %}" class="icons" />
+        </div>
+        <div class="bookmark">
+          <a href="{{post.image.url}}" style="text-decoration: none; color:var(--color-dark)" download>
+            <span><i class="fa fa-download " style="font-size:18px"></i></span>
+            
+        </a>
+          
+        </div>
+      </div>
+      
+      <div class="liked-by">
+
+
+            {% if post.no_of_likes == 0 %}
+            {% elif post.no_of_likes == 1 %}
+            <span><img src="{% static '/images__/profile-4.jpg' %}" /></span>
+            <p><b>1 like</b></p>
+            {% elif post.no_of_likes == 2 %}
+            <span><img src="{% static '/images__/profile-4.jpg' %}" /></span>
+            <span><img src="{% static '/images__/profile-2.jpg' %}" /></span>
+            <p><b>2 like</b></p>
+            {% else %}
+            <span><img src="{% static '/images__/profile-2.jpg' %}" /></span>
+            <span><img src="{% static '/images__/profile-4.jpg' %}" /></span>
+            <span><img src="{% static '/images__/profile-3.jpg' %}" /></span>
+            <p><b>{{post.no_of_likes}} likes</b></p>
+        {% endif %}
+      
+      </div>
+      <div class="caption">
+        <p>
+          <a href='/profile/{{post.user}}' style='text-decoration: none; color: black'> <strong>{{post.user}}</strong> </a> {{post.caption}}
+          <span class="hash-tag"></span>
+        </p>
+      </div>
+      <div class="comments text-muted" style>View all 100 comments</div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock content %}
+
+
+{% block right %}
+  <!--============= RIGHT ================-->
+        <div class="right">
+          <!--======= FRIEND REQUEST ========-->
+          <div class="friend-requests">
+            <h4>Suggestions</h4>
+            <!--== request 1 ====-->
+            {% for suggestion in suggestions_username_profile_list %}
+            <div class="request">
+              <div class="info">
+                <div class="profile-photo">
+                  <a href="/profile/{{suggestion.user}}">
+                    <img src="{{suggestion.profileimg.url}}" alt="" />
+                  </a>
+                </div>
+                <div class="message-body">
+                  <h5>{{suggestion.fullname}}</h5>
+                  <p class="text-muted">{{suggestion.department}}</p>
+                </div>
+              </div>
+              <div class="action">
+                <a href="/profile/{{suggestion.user}}" class="btn btn-primary">Follow</a>
+                <a href="/uog_chat/{{suggestion.user}}" class="btn">Message</a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+{% endblock right %}
+  
+

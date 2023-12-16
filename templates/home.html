@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<!--=========STUDENT RECOMMENDATION==== -->
+
+<div class="students-main-container">
+  <h3>Recommended Students</h3>
+  <form action="" method="POST" class="search-filter-students">
+    {% csrf_token %}
+    <div class="search-bar">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="icons"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+        />
+      </svg>
+
+      <input type="search" name='username' placeholder="Search for Students" />
+    </div>
+    <div class="filter-bar">
+      <div class="sex-box filter-box">
+        <label for="gender">Gender</label>
+        <select id="gender" name='gender'>
+          <option disabled selected>select</option>
+          <option value='Male'>Male</option>
+          <option value='Female'>Female</option>
+        </select>
+      </div>
+      <div class="dep-box filter-box">
+        <label for="department">Department</label>
+            <select id="department" name='department'>
+              <option disabled selected>select</option>
+              <option value='Electrical and Computer Engineering'>Electrical and Computer Engineering</option>
+              <option value='Mechanical Engineering'>Mechanical Engineering</option>
+              <option value='Civil Engineering'>Civil Engineering</option>
+              <option value='Hydrolics Engineering'>Hydrolics Engineering</option>
+              <option value='COTM'>COTM</option>
+            </select>
+      </div>
+      <div class="batch-box filter-box">
+        <label for="batch">Batch</label>
+            <select id="batch" name='batch'>
+              <option disabled selected>select</option>
+              <option value='First Year'>First Year</option>
+              <option value='Second Year'>Second Year</option>
+              <option value='Third Year'>Third Year</option>
+              <option value='Fourth Year'>Fourth Year</option>
+              <option value='Fifth Year'>Fifth Year</option>
+            </select>
+      </div>
+    </div>
+    <button type='submit' class="btn btn-primary post-btn" id="post-btn">
+      search
+    </button>
+  </form>
+  <div class="students-container">
+    <!--========STUDENT 1 ======-->
+    {% for user in all_user %}
+          
+        {% if user != user_profile %}
+          <div class="student">
+            <div class="student-profile">
+              <img src="{{user.profileimg.url}}" />
+            </div>
+            <h5>{{user.fullname}}</h5>
+            <div  class="dept-year">
+              <h6 class="dept">{{user.department}},</h6>
+              <h6 class="year">{{user.batch}}</h6>
+            </div>
+            <a href="/profile/{{user.user}}" class="btn btn-primary">Follow</a>
+          </div>
+        {% endif %}
+            
+    {% endfor %}
+   
+  
+  </div>
+</div>
+{% endblock content %}
+
+
+
+{% block right %}
+<div class="right">
+  <!--======= FRIEND REQUEST ========-->
+  <div class="friend-requests">
+    <h4>Suggestions</h4>
+    <!--== request 1 ====-->
+    <div class="request">
+      <div class="info">
+        <div class="profile-photo">
+          <img src="{% static '/images/photo_1_khal (1).jpg' %}" alt="" />
+        </div>
+        <div class="message-body">
+          <h5>Khalid Ahmed</h5>
+          <p class="text-muted">Civil Engineering</p>
+        </div>
+      </div>
+      <div class="action">
+        <a href="/profile/kalid" class="btn btn-primary">Follow</a>
+        <a href="/uog_chat/kalid" class="btn">Message</a>
+      </div>
+    </div>
+    <!--== request 2 ====-->
+    <div class="request">
+      <div class="info">
+        <div class="profile-photo">
+          <img src="{% static '/images/huss_pp.jpg' %}" alt="" />
+        </div>
+        <div class="message-body">
+          <h5>Hussen Jebril</h5>
+          <p class="text-muted">Hydrolics Engineering</p>
+        </div>
+      </div>
+      <div class="action">
+        <a href="/profile/huss" class="btn btn-primary">Follow</a>
+        <a href="/uog_chat/huss" class="btn">Message</a>
+      </div>
+    </div>
+    <!--== request 3 ====-->
+    <div class="request">
+      <div class="info">
+        <div class="profile-photo">
+          <img src="{% static '/images/khala.jpg' %}" alt="" />
+        </div>
+        <div class="message-body">
+          <h5>Khalid Muhammed</h5>
+          <p class="text-muted">Mechanical Engineering</p>
+        </div>
+      </div>
+      <div class="action">
+        <a href="/profile/khalid" class="btn btn-primary">Follow</a>
+        <a href="/uog_chat/khalid" class="btn">Message</a>
+      </div>
+  </div>
+</div>
+{% endblock right %}
+    

@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"
+      rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'font-awesome1/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'font-awesome1/css/fontawesome.min.css' %}">
+    
+    <title>UOG community</title>
+  </head>
+  <body>
+    <nav>
+      <div class="container">
+        <div class="logo-container">
+          <img src="{% static 'images__/uog_logo.jpg' %}" class="logo-image" alt="" />
+          <h2 class="logo-text">uognetwork</h2>
+        </div>
+        
+        <div class="create">
+          <a href="{{user_profile.profileimg.url}}">
+            <div class="profile-photo">
+              <img src="{{user_profile.profileimg.url}}" alt="her picture" />
+            </div>
+          </a>
+          <a href="{% url 'logout' %}" class='btn btn-primary'> Log Out</a>
+        </div>
+      </div>
+    </nav>
+
+    <!------------ MAIN ------------->
+    <main>
+      <div class="container">
+        <!----------LEFT BAR  ------------>
+        <div class="left">
+        <a class="profile" href="{{user_profile.profileimg.url}}">
+            <div class="profile-photo">
+              <img src="{{user_profile.profileimg.url}}" />
+            </div>
+            <div class="handle">
+              <h4>{{user_profile.fullname}}</h4>
+              <p class="text-muted">@{{user_profile.user}}</p>
+            </div>
+          </a>
+          <!-- SIDEBAR --------------->
+          <div class="sidebar">
+            <a href="{% url 'index' %}" class="menu-item active">
+              <img src="{% static 'icons/house.svg' %}" class="icons-large" />
+              <h3>Home</h3>
+            </a>
+            <a href="{% url 'home' %}" class="menu-item" >
+              <img src="{% static 'icons/magnifying-glass.svg' %}" class="icons-large" />
+              <h3>Discover</h3>
+            </a>
+            <a href="{% url 'chat' %}" class="menu-item" id="notification-message" >
+              <img src="{% static 'icons/chat-circle-text.svg' %}" class="icons-large" />
+              <h3>Messages</h3></a
+            >
+            <a href="{% url 'profile' user_profile.user %}" class="menu-item" >
+              <img src="{% static 'icons/user.svg' %}" class="icons-large" />
+              <h3>Account</h3>
+            </a>
+            <a href="{% url 'files' %}" class="menu-item" >
+              <img src="{% static 'icons/files.svg' %}" class="icons-large" />
+              <h3>Files</h3>
+            </a>
+          </div>
+          <!------ END OF SIDEBAR ------->
+          <label for="create-post" class="btn btn-primary create-post-btn ">Create Post</label>
+        </div>
+        <!-------MIDDLE---------->
+        <div class="middle">
+          <form action="upload" method="POST" enctype="multipart/form-data" class="create-post-container not-active">
+            {% csrf_token %}
+            <textarea
+              name='caption'
+              id=""
+              cols="30"
+              rows="8"
+              placeholder="whats on your mind?"
+              id="text-area"
+            ></textarea>
+            <div>
+              <input name='image_upload' type="file" id="my-file"/>
+            </div>
+            <button type='submit' class="btn btn-primary post-btn" id="post-btn">
+              Post
+            </button>
+          </form>
+         
+        {% comment %} Extending section is pluges here {% endcomment %}
+        
+        {% block content %}
+            
+        {% endblock content %}
+              
+          <!-- =======MIDDLE-MESSAGE======= -->
+          
+        </div>
+
+        
+        {% block right %}
+          
+        {% endblock right %}
+          
+        
+      </div>
+    </main>
+  </body>
+
+  <script  src="{% static 'script.js' %}"></script>
+  
+
+</html>

@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+    <script defer  src="{% static 'script.js' %}"></script>
+    <title>profile - {{user_profile.user.username}}</title>
+  </head>
+  <body>
+    <div class="profile-container">
+      <div class="about-sec">
+        <div class="profile-img">
+          <a href="{{user_profile.profileimg.url}}">  
+          <img src="{{user_profile.profileimg.url}}" alt="" />
+          </a>
+        </div>
+        <div class="about-sec-text">
+          <div class="name-and-btns">
+            <h3 style='margin-right: 6rem;'>{{user_profile.fullname}}</h3>
+            <form action="/follow" method="POST">
+              {% csrf_token %}
+              <input type="hidden" value="{{user.username}}" name="follower" />
+					    <input type="hidden" value="{{user_object.username}}" name="user" />
+              {% if user_object.username == user.username %}
+              <a href="/settings" class="edit-btn" data-ripple="">Edit profile</a>
+              {% else %}
+              <button style='margin-right: 1.5rem;' type="submit" class="btn btn-primary">{{button_text}}</button>
+              <a href="/uog_chat/{{user_object.username}}" class="btn btn-msg">Message</a>
+              {% endif %}
+            </form>
+          </div>
+          <p class="batch-and-dep">
+            <span class="batch">{{user_profile.batch}}</span>,
+            <span> {{user_profile.department}}</span>
+          </p>
+          <div class="status-number">
+            <div class="followers">
+              {% if user_followers == 0 or user_followers == 1 %}
+              <p><b>{{user_followers}}</b></p>
+              <p class="status-txt">Follower</p>
+              {% else %}
+              <p><b>{{user_followers}}</b></p>
+              <p class="status-txt">Followers</p>
+              {% endif %}
+            </div>
+            <div class="following">
+              <p><b>{{user_following}}</b></p>
+              <p class="status-txt">Following</p>
+            </div>
+            <div class="posts">
+              {% if user_post_length == 0 %}
+              <p class="status-txt"><b>No Post</b></p>
+              {% elif user_post_length == 1 %}
+              <p><b>{{user_post_length}}</b></p>
+              <p class="status-txt">Post</p>
+              {% else %}
+              <p><b>{{user_post_length}}</b></p>
+              <p class="status-txt">Posts</p>
+              {% endif %}
+            </div>
+          </div>
+          <p class="bio">
+             {{user_profile.bio}}
+          </p>
+        </div>
+      </div>
+      <div class="left-and-main-container">
+        <div class="left profile-left">
+          <a class="profile" href="{{current_profile.profileimg.url}}">
+            <div class="profile-photo">
+              <img src="{{current_profile.profileimg.url}}" />
+            </div>
+            <div class="handle">
+              <h4>{{current_profile.fullname}}</h4>
+              <p class="text-muted">@{{current_profile.user}}</p>
+            </div>
+          </a>
+          <!-- SIDEBAR --------------->
+          <div class="sidebar">
+            <a href="{% url 'index' %}" class="menu-item active">
+              <img src="{% static 'icons/house.svg' %}" class="icons-large" />
+              <h3>Home</h3>
+            </a>
+            <a href="{% url 'home' %}" class="menu-item" >
+              <img src="{% static 'icons/magnifying-glass.svg' %}" class="icons-large" />
+              <h3>Discover</h3>
+            </a>
+            <a href="{% url 'chat' %}" class="menu-item" id="notification-message" >
+              <img src="{% static 'icons/chat-circle-text.svg' %}" class="icons-large" />
+              <h3>Messages</h3></a
+            >
+            <a href="{% url 'profile' current_profile.user%}" class="menu-item" >
+              <img src="{% static 'icons/user.svg' %}" class="icons-large" />
+              <h3>Account</h3>
+            </a>
+            <a href="{% url 'files' %}" class="menu-item" >
+              <img src="{% static 'icons/files.svg' %}" class="icons-large" />
+              <h3>Files</h3>
+            </a>
+          </div>
+          <label for="create-post" class="btn btn-primary create-post-btn ">Create Post</label>
+          <!------ END OF SIDEBAR ------->
+        </div>
+        <div class="main-container">
+          {% for post in user_posts reversed%}
+            <a href="{{post.image.url}}">
+              <div class="card">
+                <img src="{{post.image.url}}" alt="" />
+              </div>
+              <div class="top-overlay">
+                <div class="overlay-icon-container">
+                  <img src="{% static 'icons/heart-fill.svg' %}" class="card-icon" />
+                  <p>{{post.no_of_likes}}</p>
+                </div>
+                <div class="overlay-icon-container">
+                  <img src="{% static 'icons/chat-circle-text-fill.svg' %}" class="card-icon" />
+                  <p>30</p>
+                </div>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+        <div class="right profile-right">
+             <!--============= RIGHT ================-->
+    <div class="right">
+      <!--======= FRIEND REQUEST ========-->
+      <div class="friend-requests">
+        <h4>Suggestions</h4>
+        <!--== request 1 ====-->
+        <div class="request">
+          <div class="info">
+            <div class="profile-photo">
+              <img src="{% static '/images/photo_1_khal (1).jpg' %}" alt="" />
+            </div>
+            <div class="message-body">
+              <h5>Khalid Ahmed</h5>
+              <p class="text-muted">Civil Engineering</p>
+            </div>
+          </div>
+          <div class="action">
+            <a href="/profile/kalid" class="btn btn-primary">Follow</a>
+            <a href="/uog_chat/kalid" class="btn">Message</a>
+          </div>
+        </div>
+        <!--== request 2 ====-->
+        <div class="request">
+          <div class="info">
+            <div class="profile-photo">
+              <img src="{% static '/images/huss_pp.jpg' %}" alt="" />
+            </div>
+            <div class="message-body">
+              <h5>Hussen Jebril</h5>
+              <p class="text-muted">Hydrolics Engineering</p>
+            </div>
+          </div>
+          <div class="action">
+            <a href="/profile/huss" class="btn btn-primary">Follow</a>
+            <a href="/uog_chat/huss" class="btn">Message</a>
+          </div>
+        </div>
+        <!--== request 3 ====-->
+        <div class="request">
+          <div class="info">
+            <div class="profile-photo">
+              <img src="{% static '/images/khala.jpg' %}" alt="" />
+            </div>
+            <div class="message-body">
+              <h5>Khalid Muhammed</h5>
+              <p class="text-muted">Mechanical Engineering</p>
+            </div>
+          </div>
+          <div class="action">
+            <a href="/profile/khalid" class="btn btn-primary">Follow</a>
+            <a href="/uog_chat/khalid" class="btn">Message</a>
+          </div>
+      </div>
+    </div>
+  </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

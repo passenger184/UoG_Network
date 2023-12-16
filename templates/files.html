@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="files-container ">
+    <form action="#" class="search-filter-students">
+      <div class="search-bar">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="icons"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+          />
+        </svg>
+
+        <input type="search" placeholder="Search for Files" />
+      </div>
+      <div class="filter-bar">
+        <div class="dep-box filter-box">
+          <label for="department">Department</label>
+          <select id="department">
+            <option>ECE</option>
+            <option>Mech.</option>
+            <option>Civil</option>
+            <option>Hydro</option>
+            <option>COTM</option>
+          </select>
+        </div>
+        <div class="batch-box filter-box">
+          <label for="batch">Year</label>
+          <select id="batch">
+            <option>First Year</option>
+            <option>Second Year</option>
+            <option>Third Year</option>
+            <option>Forth Year</option>
+            <option>Fifth Year</option>
+          </select>
+        </div>
+      </div>
+      <button class="contribute-btn">Contribute</button>
+    </form>
+    <!--========== POST-FILE-MODAL ================ -->
+    <form action="#" class="file-modal"  method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+    <input type="file" name='pdf_file' />
+
+    <div class="file-modal-control">
+        <img src="{% static '/icons/x.svg' %}" class="close-modal" alt="" />
+        <label for="file-name">Title:</label>
+        <input
+        type="text"
+        id="file-name"
+        placeholder="Enter your file name"
+        name='title'
+        />
+    </div>
+    <div class="file-modal-control">
+        <label for="department">Department</label>
+        <select id="department" name='department'>
+          <option selected>{{user_profile.department}}</option>
+          <option value='Electrical and Computer Engineering'>Electrical and Computer Engineering</option>
+          <option value='Mechanical Engineering'>Mechanical Engineering</option>
+          <option value='Civil Engineering'>Civil Engineering</option>
+          <option value='Hydrolics Engineering'>Hydrolics Engineering</option>
+          <option value='COTM'>COTM</option>
+        </select>
+    </div>
+    <div class="file-modal-control">
+        <label for="batch">Batch</label>
+        <select id="batch" name='batch'>
+          <option selected>{{user_profile.batch}}</option>
+          <option value='First Year'>First Year</option>
+          <option value='Second Year'>Second Year</option>
+          <option value='Third Year'>Third Year</option>
+          <option value='Fourth Year'>Fourth Year</option>
+          <option value='Fifth Year'>Fifth Year</option>
+        </select>
+    </div>
+    <button type="submit" class="share-btn btn-primary">Share</button>
+    </form>
+    <!-- ===========END OF MODAL ================= -->
+    <div class="files-list">
+        {% for file in files reversed%}    
+        <div class="file-info">
+            <a href="{% url 'show' file.id%}">  
+                <img src="{% static '/icons/file-text.svg' %}" alt="" />
+            </a>
+            <div class="file-info-text">
+                <div class="file-name-box file-box">
+                    <label for="file-name">Title: </label>
+                    <p>{{file.title}}</p>
+                </div>
+                <div class="file-dep-box file-box">
+                    <label for="file-dep">Department: </label>
+                    <p>{{file.department}}</p>
+                </div>
+                <div class="file-year-box file-box">
+                    <label for="file-year">Year: </label>
+                    <p>{{file.batch}}</p>
+                </div>
+            </div>
+            
+        </div>
+    {% endfor %}
+    </div>
+  </div>
+   
+    
+{% endblock content %}
+
+{% block right %}
+<div class="right">
+    <!--======= FRIEND REQUEST ========-->
+    <div class="friend-requests">
+      <h4>Suggestions</h4>
+      <!--== request 1 ====-->
+      <div class="request">
+        <div class="info">
+          <div class="profile-photo">
+            <img src="{% static '/images/photo_1_khal (1).jpg' %}" alt="" />
+          </div>
+          <div class="message-body">
+            <h5>Khalid Ahmed</h5>
+            <p class="text-muted">Civil Engineering</p>
+          </div>
+        </div>
+        <div class="action">
+          <a href="/profile/kalid" class="btn btn-primary">Follow</a>
+          <a href="/uog_chat/kalid" class="btn">Message</a>
+        </div>
+      </div>
+      <!--== request 2 ====-->
+      <div class="request">
+        <div class="info">
+          <div class="profile-photo">
+            <img src="{% static '/images/huss_pp.jpg' %}" alt="" />
+          </div>
+          <div class="message-body">
+            <h5>Hussen Jebril</h5>
+            <p class="text-muted">Hydrolics Engineering</p>
+          </div>
+        </div>
+        <div class="action">
+          <a href="/profile/huss" class="btn btn-primary">Follow</a>
+          <a href="/uog_chat/huss" class="btn">Message</a>
+        </div>
+      </div>
+      <!--== request 3 ====-->
+      <div class="request">
+        <div class="info">
+          <div class="profile-photo">
+            <img src="{% static '/images/khala.jpg' %}" alt="" />
+          </div>
+          <div class="message-body">
+            <h5>Khalid Muhammed</h5>
+            <p class="text-muted">Mechanical Engineering</p>
+          </div>
+        </div>
+        <div class="action">
+          <a href="/profile/khalid" class="btn btn-primary">Follow</a>
+          <a href="/uog_chat/khalid" class="btn">Message</a>
+        </div>
+    </div>
+  </div>
+
+  <script  src="{% static 'script_file.js' %}"></script>
+{% endblock right %}
+

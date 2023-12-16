@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+    <title>Additional Information</title>
+  </head>
+  <body">
+    <div class="form-main-container" >
+      <div class="left">
+        <a class="profile" href="{{user_profile.profileimg.url}}">
+          <div class="profile-photo">
+            <img src="{{user_profile.profileimg.url}}" />
+          </div>
+          <div class="handle">
+            <h4>{{user_profile.user}}</h4>
+            <p class="text-muted">@{{user_profile.user}}</p>
+          </div>
+        </a>
+        <!-- SIDEBAR --------------->
+        <div class="sidebar">
+          <a href="{% url 'index' %}" class="menu-item active">
+            <img src="{% static 'icons/house.svg' %}" class="icons-large" />
+            <h3>Home</h3>
+          </a>
+          <a href="{% url 'home' %}" class="menu-item" >
+            <img src="{% static 'icons/magnifying-glass.svg' %}" class="icons-large" />
+            <h3>Discover</h3>
+          </a>
+          <a href="{% url 'chat' %}" class="menu-item" id="notification-message" >
+            <img src="{% static 'icons/chat-circle-text.svg' %}" class="icons-large" />
+            <h3>Messages</h3></a
+          >
+          <a href="{% url 'home' %}" class="menu-item" >
+            <img src="{% static 'icons/user.svg' %}" class="icons-large" />
+            <h3>Account</h3>
+          </a>
+          <a href="{% url 'home' %}" class="menu-item" >
+            <img src="{% static 'icons/files.svg' %}" class="icons-large" />
+            <h3>Files</h3>
+          </a>
+        </div>
+        <!------ END OF SIDEBAR ------->
+        <label for="create-post" class="btn btn-primary">Create Post</label>
+      </div>
+      <div class="middle form-middle">
+        <form action="" class="form" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          
+          <h2>Edit Profile</h2>
+          <div class="profile-form-control">
+
+           
+            <label for="image" style="margin-right: 5px">Profile Image</label>
+            <input
+              style="margin-left: 150px"
+              name="image"
+              type="file"
+              id="image"
+              placeholder="Edit Profile Image"
+            />
+            <img class='profile-photo' width="43px" height="43px" src="{{user_profile.profileimg.url}}"  style="margin: 0px"/>
+          </div>
+          <div class="profile-form-control">
+            <label for="username">Full Name</label>
+            <input
+              value="{{user_profile.fullname}}"
+              name="fullname"
+              type="text"
+              id="full-name"
+              placeholder="Enter your Username"
+            />
+          </div>
+          <div class="profile-form-control">
+            <label for="department">Phone number</label>
+            <input
+              value="{{user_profile.phonenumber}}"
+              name="phonenumber"
+              type="text"
+              id="department"
+              placeholder="Enter your Phone number"
+            />
+          </div>
+          <div class="profile-form-control">
+            <label for="id">ID</label>
+            <input value="{{user_profile.idcard}}" name="idcard" type="text" id="id" placeholder="Enter your ID" />
+          </div>
+          <div class="profile-form-control">
+            <label for="batch">Batch</label>
+            <select id="batch" name='batch'>
+              <option selected>{{user_profile.batch}}</option>
+              <option value='First Year'>First Year</option>
+              <option value='Second Year'>Second Year</option>
+              <option value='Third Year'>Third Year</option>
+              <option value='Fourth Year'>Fourth Year</option>
+              <option value='Fifth Year'>Fifth Year</option>
+            </select>
+          </div>
+          <div class="profile-form-control">
+            <label for="gender">Gender</label>
+            <select id="gender" name='gender'>
+              <option selected >{{user_profile.gender}}</option>
+              <option value='Male'>Male</option>
+              <option value='Female'>Female</option>
+              <option value='Unspecified'>Unspecified</option>
+            </select>
+          </div>
+          <div class="profile-form-control">
+            <label for="department">Department</label>
+            <select id="department" name='department'>
+              <option selected>{{user_profile.department}}</option>
+              <option value='Electrical and Computer Engineering'>Electrical and Computer Engineering</option>
+              <option value='Mechanical Engineering'>Mechanical Engineering</option>
+              <option value='Civil Engineering'>Civil Engineering</option>
+              <option value='Hydrolics Engineering'>Hydrolics Engineering</option>
+              <option value='COTM'>COTM</option>
+            </select>
+          </div>
+          <div class="profile-form-control">
+            <label for="bio">Bio</label>
+            <textarea
+              name="bio"
+              id="bio"
+              cols="30"
+              rows="3"
+              placeholder="Write something about your self..."
+            >{{user_profile.bio}}</textarea>
+          </div>
+          <div style="display: inline;">
+            <a href="/" style="text-decoration: none; float: left; color: hsl(252, 30%, 17%); margin: 2rem; padding-left: 1.9rem;">Skip</a> 
+            <button type="submit" style="float: right; margin-right: 3.5rem;">Update</button>
+          </div>
+        </form>
+      </div>
+      <div class="right"></div>
+    </div>
+  </body>
+</html>
